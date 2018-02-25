@@ -6,7 +6,7 @@ Administración de  normas API
 * Express
 * MongoDB
 * Auth jwt
-* TTD - Mocha & Chai
+* TTD (Mocha, expect, supertest)
 
 ## v1:
 * CRUD de Schema
