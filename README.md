@@ -14,14 +14,14 @@ Administración de  normas API
   * Get schema Schema
   * Delete Schema
   * Get Schemas list
-  * Update item
+  * Update Schema
     
 * CRUD de modules
-  * Create item
-  * Get schema item
-  * Delete item
-  * Get items list
-  * Update item
+  * Create Module
+  * Get Module
+  * Delete Module
+  * Get Modules list
+  * Update Module
   
 * CRUD de items:
   * Create item
