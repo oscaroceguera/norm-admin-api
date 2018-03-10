@@ -22,6 +22,15 @@ app.post('/schemas', async (req, res) => {
   }
 })
 
+app.get('/schemas', async (req, res) => {
+  try {
+    const schemas = await Norm.find()
+    res.send(schemas)
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
 app.listen(port, () => {
   console.log(`Started up at port ${port}`)
 })

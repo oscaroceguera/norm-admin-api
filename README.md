@@ -10,11 +10,12 @@ Administración de  normas API
 
 ## v1:
 * CRUD de Schema
-  * Create Schema
-  * Get schema Schema
+  * ~Create Schema~
+  * Get schema by id
   * Delete Schema
-  * Get Schemas list
+  * ~Get Schemas list~
   * Update Schema
+  * Delete Schema with modules/items
     
 * CRUD de modules
   * Create Module
