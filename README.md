@@ -11,7 +11,7 @@ Administración de  normas API
 ## v1:
 * CRUD de Schema
   * ~Create Schema~
-  * Get schema by id
+  * ~Get schema by uuid~
   * Delete Schema
   * ~Get Schemas list~
   * Update Schema
