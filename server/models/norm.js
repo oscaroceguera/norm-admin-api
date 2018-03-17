@@ -12,7 +12,10 @@ const NormSchema = new Schema({
   },
   version: { type: String, required: true },
   description: { type: String },
-  modules: [{ type: String }]
+  modules: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Module'
+  }]
 }, { timestamps: true })
 
 const Norm = mongoose.model('Norm', NormSchema)
