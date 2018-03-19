@@ -12,10 +12,14 @@ module.exports = [
     ]
   },
   {
+    _id: '5aaf5b83d284b5164de39943',
     uuid: '4a9d7ee4-4802-4808-9c28-46cffb61f889',
-    name: 'SENASICA BPPA',
+    name: 'SENASICA BPA',
     version: 'v50',
-    description: 'SENASICA: Buenas Prácticas de BPPA'
+    description: 'SENASICA: Buenas Prácticas de Agrícolas',
+    modules: [
+      '5aaf5c20535484168fa567c6'
+    ]
   },
   {
     name: 'C-TPAT',

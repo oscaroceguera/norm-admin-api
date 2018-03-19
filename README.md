@@ -18,9 +18,11 @@ Administración de  normas API
     
 * CRUD de modules
   * ~Create Module (save _id in schema)~
-  * Get Module by uuid
-  * Get modules by schema uuid
-  * Delete Module
+  * ~Get modules by schema uuid~
+  * ~Get Module by uuid~
+  * Get Module by uuid with items
+  * Get modules by schema uuid with items
+  * Delete Module with items
   * Update Module
   
 * CRUD de items:

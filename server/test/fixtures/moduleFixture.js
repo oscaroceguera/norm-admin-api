@@ -19,5 +19,12 @@ module.exports = [
     number: '1.2',
     order: 2,
     norm: '5aacb7e9488b8809788c8756'
+  },
+  {
+    name: 'Modulo para buenas practicas agricolas',
+    number: '1',
+    order: 1,
+    norm: '5aaf5b83d284b5164de39943',
+    uuid: 'f4b08cf5-6d28-48e0-928b-abf8332a4f92'
   }
 ]

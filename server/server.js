@@ -93,6 +93,38 @@ app.post('/schemas/:schemaUuid/modules', async (req, res) => {
   }
 })
 
+app.get('/schemas/:schemaUuid/modules', async (req, res) => {
+  const uuid = req.params.schemaUuid
+
+  try {
+    const norm = await Norm.findOne({ uuid })
+
+    if (!norm) {
+      return res.status(404).send()
+    }
+
+    const modules = await Module.find({ norm: norm._id }).populate('norm')
+
+    res.send(modules)
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
+app.get('/modules/:moduleUuid', async (req, res) => {
+  const uuid = req.params.moduleUuid
+  try {
+    const module = await Module.findOne({ uuid }).populate('norm')
+    if (!module) {
+      return res.status(404).send()
+    }
+
+    res.send(module)
+  } catch (e) {
+    res.status(400).send(e)
+  }
+})
+
 app.listen(port, () => {
   console.log(`Started up at port ${port}`)
 })
