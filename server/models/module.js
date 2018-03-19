@@ -2,21 +2,21 @@ const mongoose = require('mongoose')
 const { Schema } = require('mongoose')
 const { v4 } = require('uuid')
 
-const NormSchema = new Schema({
+const ModuleSchema = new Schema({
   uuid: { type: String, default: v4 },
   name: {
     type: String,
     required: true,
-    minlength: 1,
     trim: true
   },
-  version: { type: String, required: true },
-  description: { type: String },
-  modules: [{
+  number: { type: String, required: true },
+  order: { type: Number, required: true },
+  norm: {
     type: Schema.Types.ObjectId,
-    ref: 'Module'
-  }]
+    ref: 'Norm'
+  },
+  items: [{ type: String }]
 }, { timestamps: true })
 
-const Norm = mongoose.model('Norm', NormSchema)
-module.exports = { Norm }
+const Module = mongoose.model('Module', ModuleSchema)
+module.exports = { Module }
