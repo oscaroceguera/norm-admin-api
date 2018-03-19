@@ -16,7 +16,7 @@ const ModuleSchema = new Schema({
     ref: 'Norm'
   },
   items: [{ type: String }]
-})
+}, { timestamps: true })
 
 const Module = mongoose.model('Module', ModuleSchema)
 module.exports = { Module }

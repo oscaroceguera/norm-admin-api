@@ -99,3 +99,42 @@ describe('[GET] /modules/:moduleUuid', () => {
       .end(done)
   })
 })
+
+describe('[PATCH] /modules/:uuid', () => {
+  it('should update the schema', done => {
+    const uuid = moduleFixture[3].uuid
+    test()
+      .patch(`/modules/${uuid}`)
+      .send(moduleFixture[2])
+      .expect(200)
+      .expect(res => {
+        expect(res.body.module.name).toBe(moduleFixture[2].name)
+        expect(res.body.module.order).toBe(moduleFixture[2].order)
+        expect(res.body.module.number).toBe(moduleFixture[2].number)
+        expect(typeof res.body.module.order).toBe('number')
+      })
+      .end(done)
+  })
+
+  it('should not update with invalid data', done => {
+    const uuid = moduleFixture[3].uuid
+    const body = {
+      name: 'as',
+      number: 'as',
+      order: ''
+    }
+    test()
+      .patch(`/modules/${uuid}`)
+      .send(body)
+      .expect(400)
+      .end(done)
+  })
+
+  it('should not found module to update', done => {
+    test()
+      .patch('/modules/abcd123456')
+      .send(moduleFixture[1])
+      .expect(404)
+      .end(done)
+  })
+})

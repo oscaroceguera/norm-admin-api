@@ -113,6 +113,7 @@ app.get('/schemas/:schemaUuid/modules', async (req, res) => {
 
 app.get('/modules/:moduleUuid', async (req, res) => {
   const uuid = req.params.moduleUuid
+
   try {
     const module = await Module.findOne({ uuid }).populate('norm')
     if (!module) {
@@ -122,6 +123,35 @@ app.get('/modules/:moduleUuid', async (req, res) => {
     res.send(module)
   } catch (e) {
     res.status(400).send(e)
+  }
+})
+
+app.patch('/modules/:uuid', async (req, res) => {
+  const uuid = req.params.uuid
+  const body = _.pick(req.body, ['name', 'order', 'number'])
+
+  if (body.name === '') {
+    return res.status(400).send({ message: 'Name is required' })
+  }
+
+  if (body.order === '') {
+    return res.status(400).send({ message: 'Order is required' })
+  }
+
+  if (body.number === '') {
+    return res.status(400).send({ message: 'Number is required' })
+  }
+
+  try {
+    const module = await Module.findOneAndUpdate({ uuid: uuid }, { $set: body }, { new: true })
+
+    if (!module) {
+      return res.status(404).send()
+    }
+
+    res.send({ module })
+  } catch (e) {
+    res.status(400).send()
   }
 })
 
