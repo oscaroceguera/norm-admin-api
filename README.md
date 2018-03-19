@@ -23,7 +23,7 @@ Administración de  normas API
   * Get Module by uuid with items
   * Get modules by schema uuid with items
   * Delete Module with items
-  * Update Module
+  * ~Update Module~
   
 * CRUD de items:
   * Create item
