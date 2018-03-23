@@ -7,6 +7,7 @@ const _ = require('lodash')
 
 const { Norm } = require('./models/norm')
 const { Module } = require('./models/module')
+const { Item } = require('./models/item')
 
 const app = express()
 const port = process.env.PORT
@@ -18,7 +19,7 @@ app.post('/schemas', async (req, res) => {
 
   try {
     const doc = await norm.save()
-    res.send(doc)
+    res.send(doc.toPublic())
   } catch (e) {
     res.status(400).send(e)
   }
@@ -27,7 +28,8 @@ app.post('/schemas', async (req, res) => {
 app.get('/schemas', async (req, res) => {
   try {
     const schemas = await Norm.find().populate('modules')
-    res.send(schemas)
+
+    res.send(schemas.map(i => i.toPublic()))
   } catch (e) {
     res.status(400).send(e)
   }
@@ -41,7 +43,7 @@ app.get('/schemas/:uuid', async (req, res) => {
     if (!schema) {
       return res.status(404).send()
     }
-    res.send({ schema })
+    res.send({ schema: schema.toPublic() })
   } catch (e) {
     res.status(400).send(e)
   }
@@ -66,7 +68,7 @@ app.patch('/schemas/:uuid', async (req, res) => {
       return res.status(404).send()
     }
 
-    res.send({schema})
+    res.send({ schema: schema.toPublic() })
   } catch (e) {
     res.status(400).send(e)
   }
@@ -87,7 +89,7 @@ app.post('/schemas/:schemaUuid/modules', async (req, res) => {
       { $push: { 'modules': doc._id } }
     )
 
-    res.send(doc)
+    res.send(doc.toPublic)
   } catch (e) {
     res.status(400).send(e)
   }
@@ -105,7 +107,7 @@ app.get('/schemas/:schemaUuid/modules', async (req, res) => {
 
     const modules = await Module.find({ norm: norm._id }).populate('norm')
 
-    res.send(modules)
+    res.send(modules.map(m => m.toPublic()))
   } catch (e) {
     res.status(400).send(e)
   }
@@ -120,7 +122,7 @@ app.get('/modules/:moduleUuid', async (req, res) => {
       return res.status(404).send()
     }
 
-    res.send(module)
+    res.send(module.toPublic())
   } catch (e) {
     res.status(400).send(e)
   }
@@ -149,9 +151,30 @@ app.patch('/modules/:uuid', async (req, res) => {
       return res.status(404).send()
     }
 
-    res.send({ module })
+    res.send({ module: module.toPublic() })
   } catch (e) {
     res.status(400).send()
+  }
+})
+
+app.post('/modules/:moduleUuid/items', async (req, res) => {
+  const uuid = req.params.moduleUuid
+
+  try {
+    const { _id } = await Module.findOne({ uuid })
+    req.body.module = _id
+
+    const _item = new Item(req.body)
+    const doc = await _item.save()
+
+    await Module.findOneAndUpdate(
+      { uuid: uuid },
+      {$push: {'items': doc._id}}
+    )
+
+    res.send(doc.toPublic())
+  } catch (e) {
+    res.status(400).send(e)
   }
 })
 

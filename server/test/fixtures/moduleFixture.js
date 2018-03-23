@@ -18,13 +18,20 @@ module.exports = [
     name: 'Modulo uno para senasica buma tres',
     number: '1.2',
     order: 2,
-    norm: '5aacb7e9488b8809788c8756'
+    norm: '5aacb7e9488b8809788c8756',
+    uuid: '7b1d91ed-78d7-4f88-8ccd-6d1f54b7cb7f'
   },
   {
+    _id: '5ab4a1a2d34cdc21ab6bbe01',
     name: 'Modulo para buenas practicas agricolas',
     number: '1',
     order: 1,
     norm: '5aaf5b83d284b5164de39943',
-    uuid: 'f4b08cf5-6d28-48e0-928b-abf8332a4f92'
+    uuid: 'f4b08cf5-6d28-48e0-928b-abf8332a4f92',
+    items: [
+      '5ab4a13af10d452158f9d5df',
+      '5ab4a13af10d452158f9d5e0',
+      '5ab4a13af10d452158f9d5e1'
+    ]
   }
 ]

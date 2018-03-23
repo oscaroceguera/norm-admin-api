@@ -15,6 +15,7 @@ Administración de  normas API
   * ~Get Schemas list~
   * ~Update Schema~
   * Delete Schema with modules/items
+  * ~Format public and hide _id~
     
 * CRUD de modules
   * ~Create Module (save _id in schema)~
@@ -24,13 +25,15 @@ Administración de  normas API
   * Get modules by schema uuid with items
   * Delete Module with items
   * ~Update Module~
+  * ~Format public and hide _id~
   
 * CRUD de items:
-  * Create item
+  * ~Create item~
   * Get schema item
   * Delete item
   * Get items list
   * Update item
+  * ~Format public and hide _id~
   
 ## Schema structure
 
