@@ -29,5 +29,12 @@ ModuleSchema.methods.toPublic = function () {
   return _.omit(moduleObj, ['_id', '__v'])
 }
 
+ModuleSchema.methods.toParentRef = function () {
+  const module = this
+  const moduleObj = module.toObject()
+
+  return _.omit(moduleObj, ['_id', '__v', 'norm.modules'])
+}
+
 const Module = mongoose.model('Module', ModuleSchema)
 module.exports = { Module }

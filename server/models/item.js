@@ -27,5 +27,11 @@ ItemSchema.methods.toPublic = function () {
   return _.omit(itemObj, ['_id', '__v'])
 }
 
+ItemSchema.methods.toParentRef = function () {
+  const item = this
+  const itemObj = item.toObject()
+  return _.omit(itemObj, ['_id', '__v', 'module.items'])
+}
+
 const Item = mongoose.model('Item', ItemSchema)
 module.exports = { Item }
