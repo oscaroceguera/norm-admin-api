@@ -24,7 +24,7 @@ describe('[POST] /modules/:uuidModule/items', () => {
     }
 
     test()
-      .post(`/modules/${moduleFixture[2].uuid}/items`)
+      .post(`/api/modules/${moduleFixture[2].uuid}/items`)
       .send(_item)
       .expect(200)
       .expect(res => {
@@ -52,7 +52,7 @@ describe('[POST] /modules/:uuidModule/items', () => {
 
   it('should not create a item with invalid body data', done => {
     test()
-      .post(`/modules/${moduleFixture[2].uuid}/items`)
+      .post(`/api/modules/${moduleFixture[2].uuid}/items`)
       .send({})
       .expect(400)
       .end(done)
@@ -62,7 +62,7 @@ describe('[POST] /modules/:uuidModule/items', () => {
 describe('[GET] /modules/:moduleUuid/items', () => {
   it('should return items by module uuid', done => {
     test()
-      .get(`/modules/${moduleFixture[0].uuid}/items`)
+      .get(`/api/modules/${moduleFixture[0].uuid}/items`)
       .expect(200)
       .expect(res => {
         expect(res.body.length).toBe(3)
@@ -73,7 +73,7 @@ describe('[GET] /modules/:moduleUuid/items', () => {
 
   it('should return 404 if items not found by moduleUuid', done => {
     test()
-      .get('/modules/66a14dc1-8ef4-40ff-9390-6bdb46ddc643/items')
+      .get('/api/modules/66a14dc1-8ef4-40ff-9390-6bdb46ddc643/items')
       .expect(404)
       .end(done)
   })
@@ -82,7 +82,7 @@ describe('[GET] /modules/:moduleUuid/items', () => {
 describe('[GET] /items/:itenUuid', () => {
   it('should return item by uuid', done => {
     test()
-      .get(`/items/${itemFixture[0].uuid}`)
+      .get(`/api/items/${itemFixture[0].uuid}`)
       .expect(200)
       .expect(res => {
         expect(res.body.name).toBe(itemFixture[0].name)
@@ -92,7 +92,7 @@ describe('[GET] /items/:itenUuid', () => {
 
   it('should not return module to incorrectly uuid', (done) => {
     test()
-      .get('/items/66a14dc1-8ef4-40ff-9390-6bdb46ddc643/modules')
+      .get('/api/items/66a14dc1-8ef4-40ff-9390-6bdb46ddc643/modules')
       .expect(404)
       .end(done)
   })
@@ -102,7 +102,7 @@ describe('[PATCH] /items/:uuid', () => {
   it('should update the item', done => {
     const uuid = itemFixture[0].uuid
     test()
-      .patch(`/items/${uuid}`)
+      .patch(`/api/items/${uuid}`)
       .send(itemFixture[2])
       .expect(200)
       .expect(res => {
@@ -124,7 +124,7 @@ describe('[PATCH] /items/:uuid', () => {
       order: 1
     }
     test()
-      .patch(`/items/${uuid}`)
+      .patch(`/api/items/${uuid}`)
       .send(body)
       .expect(400)
       .end(done)
@@ -132,7 +132,7 @@ describe('[PATCH] /items/:uuid', () => {
 
   it('should not found item to update', done => {
     test()
-      .patch('/items/abcd123456')
+      .patch('/api/items/abcd123456')
       .send(itemFixture[0])
       .expect(404)
       .end(done)
@@ -144,7 +144,7 @@ describe('DELETE /items/:uuid', () => {
     const uuid = itemFixture[0].uuid
 
     test()
-      .delete(`/items/${uuid}`)
+      .delete(`/api/items/${uuid}`)
       .expect(200)
       .expect(res => {
         expect(res.body.item.uuid).toBe(uuid)
@@ -163,7 +163,7 @@ describe('DELETE /items/:uuid', () => {
 
   it('should return 404 if item not found', done => {
     test()
-      .delete('/items/123-123asda')
+      .delete('/api/items/123-123asda')
       .expect(404)
       .end(done)
   })
