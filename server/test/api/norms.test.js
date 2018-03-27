@@ -20,7 +20,7 @@ describe('[POST] /schemas', () => {
     }
 
     test()
-      .post('/schemas')
+      .post('/api/schemas')
       .send(norm)
       .expect(200)
       .expect(res => {
@@ -41,7 +41,7 @@ describe('[POST] /schemas', () => {
 
   it('should not create schema with invalid body data', done => {
     test()
-      .post('/schemas')
+      .post('/api/schemas')
       .send({})
       .expect(400)
       .end((err, res) => {
@@ -60,7 +60,7 @@ describe('[POST] /schemas', () => {
 describe('[GET] /schemas', () => {
   it('should get all schemas', done => {
     test()
-      .get('/schemas')
+      .get('/api/schemas')
       .expect(200)
       .expect(res => {
         expect(res.body.length).toBe(3)
@@ -72,7 +72,7 @@ describe('[GET] /schemas', () => {
 describe('[GET] /schemas/:uuid', () => {
   it('should return schema by uuid', done => {
     test()
-      .get(`/schemas/${normFixture[0].uuid}`)
+      .get(`/api/schemas/${normFixture[0].uuid}`)
       .expect(200)
       .expect(res => {
         expect(res.body.schema.name).toBe(normFixture[0].name)
@@ -82,7 +82,7 @@ describe('[GET] /schemas/:uuid', () => {
 
   it('should return 404 if schema not found', done => {
     test()
-      .get('/schemas/66a14dc1-8ef4-40ff-9390-6bdb46ddc643')
+      .get('/api/schemas/66a14dc1-8ef4-40ff-9390-6bdb46ddc643')
       .expect(404)
       .end(done)
   })
@@ -98,7 +98,7 @@ describe('[PATCH] /schemas/:uuid', () => {
     }
 
     test()
-      .patch(`/schemas/${uuid}`)
+      .patch(`/api/schemas/${uuid}`)
       .send(body)
       .expect(200)
       .expect(res => {
@@ -119,7 +119,7 @@ describe('[PATCH] /schemas/:uuid', () => {
     }
 
     test()
-      .patch(`/schemas/${uuid}`)
+      .patch(`/api/schemas/${uuid}`)
       .send(body)
       .expect(400)
       .end(done)

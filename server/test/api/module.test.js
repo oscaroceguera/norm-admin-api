@@ -6,7 +6,6 @@ const { Norm } = require('../../models/norm')
 const { populateModules } = require('../utils/populateModules')
 const { moduleFixture } = require('../fixtures')
 const { normFixture } = require('../fixtures')
-const { ObjectID } = require('mongodb')
 
 function test () {
   return request(app)
@@ -23,7 +22,7 @@ describe('[POST] /modules/:shcemaUuid', () => {
     }
 
     test()
-      .post(`/schemas/${normFixture[0].uuid}/modules`)
+      .post(`/api/schemas/${normFixture[0].uuid}/modules`)
       .send(_module)
       .expect(200)
       .expect(res => {
@@ -40,21 +39,18 @@ describe('[POST] /modules/:shcemaUuid', () => {
           expect(modules[0].name).toBe(_module.name)
           return modules
         }).then(module => {
-          return Norm.find({ _id: module[0].norm })
+          return Norm.find({ _id: module[0].norm }).populate('modules')
         }).then(norm => {
-          const idLastModule = new ObjectID(norm[0].modules[3]).toHexString()
-
           expect(norm[0].modules.length).toBe(4)
-          expect(idLastModule).toBe(res.body._id)
+          expect(norm[0].modules[3].uuid).toBe(res.body.uuid)
           done()
-        })
-        .catch(e => done(e))
+        }).catch(e => done(e))
       })
   })
 
   it('should not create module with invalid body data', (done) => {
     test()
-      .post(`/schemas/${normFixture[0].uuid}/modules`)
+      .post(`/api/schemas/${normFixture[0].uuid}/modules`)
       .send({})
       .expect(400)
       .end(done)
@@ -64,18 +60,18 @@ describe('[POST] /modules/:shcemaUuid', () => {
 describe('[GET] /schemas/:schemaUuid/modules', () => {
   it('should return modules by schema uuid', (done) => {
     test()
-      .get(`/schemas/${normFixture[0].uuid}/modules`)
+      .get(`/api/schemas/${normFixture[0].uuid}/modules`)
       .expect(200)
       .expect(res => {
         expect(res.body.length).toBe(3)
-        expect(res.body[1]._id).toBe(normFixture[0].modules[1])
+        expect(res.body[0].norm.name).toBe(normFixture[0].name)
       })
       .end(done)
   })
 
   it('should return 404 if modules not fount by schema-uuid', done => {
     test()
-      .get('/schemas/66a14dc1-8ef4-40ff-9390-6bdb46ddc643/modules')
+      .get('/api/schemas/66a14dc1-8ef4-40ff-9390-6bdb46ddc643/modules')
       .expect(404)
       .end(done)
   })
@@ -84,7 +80,7 @@ describe('[GET] /schemas/:schemaUuid/modules', () => {
 describe('[GET] /modules/:moduleUuid', () => {
   it('should return module by uuid', (done) => {
     test()
-      .get(`/modules/${moduleFixture[3].uuid}`)
+      .get(`/api/modules/${moduleFixture[3].uuid}`)
       .expect(200)
       .expect(res => {
         expect(res.body.name).toBe(moduleFixture[3].name)
@@ -94,17 +90,17 @@ describe('[GET] /modules/:moduleUuid', () => {
 
   it('should not return module to incorrectly uuid', (done) => {
     test()
-      .get('/modules/66a14dc1-8ef4-40ff-9390-6bdb46ddc643/modules')
+      .get('/api/modules/66a14dc1-8ef4-40ff-9390-6bdb46ddc643/modules')
       .expect(404)
       .end(done)
   })
 })
 
 describe('[PATCH] /modules/:uuid', () => {
-  it('should update the schema', done => {
+  it('should update the module', done => {
     const uuid = moduleFixture[3].uuid
     test()
-      .patch(`/modules/${uuid}`)
+      .patch(`/api/modules/${uuid}`)
       .send(moduleFixture[2])
       .expect(200)
       .expect(res => {
@@ -124,7 +120,7 @@ describe('[PATCH] /modules/:uuid', () => {
       order: ''
     }
     test()
-      .patch(`/modules/${uuid}`)
+      .patch(`/api/modules/${uuid}`)
       .send(body)
       .expect(400)
       .end(done)
@@ -132,7 +128,7 @@ describe('[PATCH] /modules/:uuid', () => {
 
   it('should not found module to update', done => {
     test()
-      .patch('/modules/abcd123456')
+      .patch('/api/modules/abcd123456')
       .send(moduleFixture[1])
       .expect(404)
       .end(done)
