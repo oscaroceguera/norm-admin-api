@@ -1,5 +1,5 @@
-# norm-admin-api
-Administración de  normas API
+# norm-admin-api [1.0.0]
+Norms admin
 
 ## Stack
 * Nodejs
@@ -8,33 +8,25 @@ Administración de  normas API
 * Auth jwt
 * TTD (Mocha, expect, supertest)
 
-## v1:
-* CRUD de Schema
-  * ~Create Schema~
-  * ~Get schema by uuid~
-  * ~Get Schemas list~
-  * ~Update Schema~
-  * ~Delete Schema with modules/items~
-  * ~Format public and hide _id~
-    
-* CRUD de modules
-  * ~Create Module (save _id in schema)~
-  * ~Get modules by schema uuid~
-  * ~Get Module by uuid~
-  * Get Module by uuid with items
-  * Get modules by schema uuid with items
-  * ~Delete Module with items~
-  * ~Update Module~
-  * ~Format public and hide _id~
-  
-* CRUD de items:
-  * ~Create item~
-  * Get schema items
-  * Delete item
-  * ~Get items list~
-  * ~Update item~
-  * ~Format public and hide _id~
-  
+### CRUD de Schema:
+  * [POST] -> /api/schemas
+  * [GET] -> /api/schemas
+  * [GET] -> /api/schemas/uuid
+  * [PATCH] -> /api/schemas/uuid
+  * [DELETE] -> /api/schemas/uuid
+### CRUD de modules
+  * [POST] -> /api/schemas/:schemaUuid/modules
+  * [GET] -> /api/schemas/:schemaUuid/modules
+  * [GET] -> /api/modules/:moduleUuid
+  * [PATCH] -> /api/modules/:moduleUuid
+  * [DELETE] -> /api/modules/:moduleUuid
+### CRUD de items:
+  * [POST] -> /api/modules/:moduleUuid/items
+  * [GET] -> /api/modules/:moduleUuid/items
+  * [GET] -> /api/items/:itemUuid
+  * [PATCH] -> /api/items/:uuid
+  * [DELETE] -> /api/items/:uuid
+
 ## Schema structure
 
 ```javascript
