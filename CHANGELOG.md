@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.1] - [2018-04-07]
+### Added
+- Simple CORS
+- Morgan logger
+
 ## [1.0.0] - [2018-03-27]
 ### Added
 - Create Schema
