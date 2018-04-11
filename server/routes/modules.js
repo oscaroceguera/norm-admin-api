@@ -27,7 +27,7 @@ exports.getModulesBySchemaUuid = async (req, res) => {
       return res.status(404).send()
     }
 
-    const modules = await Module.find({ norm: norm._id }).populate('norm')
+    const modules = await Module.find({ norm: norm._id }).populate('norm').sort('order')
 
     res.send(modules.map(m => m.toParentRef()))
   } catch (e) {

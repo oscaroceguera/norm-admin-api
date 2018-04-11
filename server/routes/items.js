@@ -27,7 +27,7 @@ exports.getItemsByModuleUuid = async (req, res) => {
       return res.status(404).send()
     }
 
-    const items = await Item.find({ module: module._id }).populate('module')
+    const items = await Item.find({ module: module._id }).populate('module').sort('order')
     res.send(items)
   } catch (e) {
     res.send(400).send(e)

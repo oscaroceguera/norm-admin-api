@@ -7,7 +7,11 @@ const { mongoose } = require('./db/mongoose')
 const cors = require('cors')
 
 const app = express()
-app.use(morgan('combined'))
+
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('combined'))
+}
+
 app.use(cors())
 
 const port = process.env.PORT
