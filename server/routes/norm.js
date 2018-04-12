@@ -14,7 +14,7 @@ exports.addSchema = async (req, res) => {
 
 exports.getSchemas = async (req, res) => {
   try {
-    const schemas = await Norm.find().populate('modules')
+    const schemas = await Norm.find().populate('modules').sort('-createdAt')
     res.send(schemas.map(i => i.toPublic()))
   } catch (e) {
     res.status(400).send(e)

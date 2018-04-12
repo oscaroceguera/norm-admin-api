@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.2] - [2018-04-12]
+### Fixed
+- Remove item for module items []
+
+## [1.1.1] - [2018-04-10]
+### Added
+- sort items
+
+### Fixed
+- Morgan logger for testing
+
+## [1.0.1] - [2018-04-07]
+### Added
+- Simple CORS
+- Morgan logger
+
 ## [1.0.0] - [2018-03-27]
 ### Added
 - Create Schema
