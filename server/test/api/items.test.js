@@ -6,6 +6,7 @@ const { Module } = require('../../models/module')
 const { populateItems } = require('../utils/populateItems')
 const { moduleFixture } = require('../fixtures')
 const { itemFixture } = require('../fixtures')
+const { ObjectID } = require('mongodb')
 
 function test() {
   return request(app)
@@ -142,6 +143,8 @@ describe('[PATCH] /items/:uuid', () => {
 describe('DELETE /items/:uuid', () => {
   it('should remove a item', done => {
     const uuid = itemFixture[0].uuid
+    const _id = itemFixture[0]._id
+    const moduleId = itemFixture[0].module
 
     test()
       .delete(`/api/items/${uuid}`)
@@ -156,8 +159,15 @@ describe('DELETE /items/:uuid', () => {
 
         Item.findOne({ uuid: uuid }).then(item => {
           expect(item).toBeFalsy()
+        })
+        .then(() => {
+          return Module.findOne({ _id: moduleId }, {items: { $elemMatch: { $eq: _id } }})
+        })
+        .then(module => {
+          expect(module.items.length).toBe(0)
           done()
-        }).catch(e => done(e))
+        })
+        .catch(e => done(e))
       })
   })
 

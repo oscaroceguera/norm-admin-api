@@ -96,6 +96,13 @@ exports.deleteItem = async (req, res) => {
     if (!item) {
       return res.status(404).send()
     }
+
+    const module = await Module.findByIdAndUpdate(item.module, { $pull: { items: item._id } })
+
+    if (!module) {
+      return res.status(404).send()
+    }
+
     res.send({ item: item.toPublic() })
   } catch (e) {
     res.status(404).send()
