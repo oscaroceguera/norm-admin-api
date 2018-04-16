@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const { Module } = require('../models/module')
 const { Norm } = require('../models/norm')
+const { Item } = require('../models/item')
 const { addWithRef } = require('../helpers')
 
 exports.addModule = async (req, res) => {
@@ -92,6 +93,12 @@ exports.deleteModule = async (req, res) => {
 
     for (let key of module.items) {
       await Item.findByIdAndRemove(key)
+    }
+
+    const norm = await Norm.findByIdAndUpdate(module.norm, { $pull: { modules: module._id } })
+
+    if (!norm) {
+      return res.status(404).send()
     }
 
     res.send({ module: module.toPublic() })
