@@ -2,10 +2,12 @@ const expect = require('expect')
 const request = require('supertest')
 const { app } = require('../../server')
 const { Module } = require('../../models/module')
+const { Item } = require('../../models/item')
 const { Norm } = require('../../models/norm')
 const { populateModules } = require('../utils/populateModules')
 const { moduleFixture } = require('../fixtures')
 const { normFixture } = require('../fixtures')
+const { ObjectID } = require('mongodb')
 
 function test () {
   return request(app)
@@ -130,6 +132,48 @@ describe('[PATCH] /modules/:uuid', () => {
     test()
       .patch('/api/modules/abcd123456')
       .send(moduleFixture[1])
+      .expect(404)
+      .end(done)
+  })
+})
+
+describe('[DELETE] /modules/:uuid', () => {
+  it('should remove a module', done => {
+    const uuid = moduleFixture[0].uuid
+    const _id = moduleFixture[0]._id
+    const normId = moduleFixture[0].norm
+    test()
+      .delete(`/api/modules/${uuid}`)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.module.uuid).toBe(uuid)
+      })
+      .end((err, res) => {
+        if (err) {
+          return done(err)
+        }
+
+        Module.findOne({ uuid }).then(module => {
+          expect(module).toBeFalsy()
+        })
+        .then(() => {
+          return Norm.findOne({ _id: normId }, {modules: {$elemMatch: {$eq: _id }}})
+        })
+        .then(norm => {
+          expect(norm.modules.length).toBe(0)
+          return Item.find({ module: _id })
+        })
+        .then(items => {
+          expect(items.length).toBe(0)
+          done()
+        })
+        .catch(e => done(e))
+      })
+  })
+
+  it('should return 404 if module not found', done => {
+    test()
+      .delete('/api/items/123-123asda')
       .expect(404)
       .end(done)
   })

@@ -140,7 +140,7 @@ describe('[PATCH] /items/:uuid', () => {
   })
 })
 
-describe('DELETE /items/:uuid', () => {
+describe('[DELETE] /items/:uuid', () => {
   it('should remove a item', done => {
     const uuid = itemFixture[0].uuid
     const _id = itemFixture[0]._id
