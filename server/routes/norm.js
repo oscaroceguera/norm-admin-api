@@ -1,4 +1,6 @@
 const { Norm } = require('../models/norm')
+const { Item } = require('../models/item')
+const { Module } = require('../models/module')
 const _ = require('lodash')
 
 exports.addSchema = async (req, res) => {
@@ -62,6 +64,7 @@ exports.updateSchema = async (req, res) => {
 
 exports.deleteSchema = async (req, res) => {
   const uuid = req.params.uuid
+
   try {
     const data = await Norm.findOne({ uuid })
 
@@ -72,6 +75,7 @@ exports.deleteSchema = async (req, res) => {
     }
 
     const _items = items.reduce((a, b) => a.concat(b), [])
+
     for (let key of _items) {
       await Item.findByIdAndRemove(key)
     }

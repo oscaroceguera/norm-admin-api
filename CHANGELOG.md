@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.4] - [2018-04-16]
+### Fixed
+- Add Item & Module models in Norm route
+
+
 ## [1.1.3] - [2018-04-16]
 ### Fixed
 - Remove module for norm modules []
