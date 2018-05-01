@@ -1,5 +1,6 @@
 require('./config/config')
 
+const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
@@ -15,6 +16,10 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(cors())
 
 const port = process.env.PORT
+
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'pug')
+
 const routes = require('./routes')
 
 app.use(bodyParser.json())

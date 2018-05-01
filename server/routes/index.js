@@ -21,6 +21,7 @@ module.exports = (app) => {
   router.get('/items/:itemUuid', items.getItemByUuid)
   router.patch('/items/:uuid', items.updateItem)
   router.delete('/items/:uuid', items.deleteItem)
+  router.get('/schemas/:uuid/download', norm.download)
 
   app.use('/api', router)
 }
