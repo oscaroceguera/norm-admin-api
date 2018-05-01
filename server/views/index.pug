@@ -1,0 +1,24 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+    style
+      include style.css
+  
+  body
+    h2.
+      #{name} #{version}
+    p.description=  description
+    div.module-container
+      for module in modules
+        div 
+          h3.module-title #{module.number} - #{module.name}
+          for item in module.items
+            div.item-containner
+              p.item-question #{item.number} - #{item.question}
+              p.item-comment #{item.comment}
+              p.item-value
+                label Valor:
+                  span #{item.value}
+
+
