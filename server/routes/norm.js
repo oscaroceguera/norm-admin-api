@@ -2,6 +2,8 @@ const { Norm } = require('../models/norm')
 const { Item } = require('../models/item')
 const { Module } = require('../models/module')
 const _ = require('lodash')
+const pug = require('pug')
+const pdf = require('html-pdf')
 
 exports.addSchema = async (req, res) => {
   const norm = new Norm(req.body)
@@ -9,6 +11,52 @@ exports.addSchema = async (req, res) => {
   try {
     const doc = await norm.save()
     res.send(doc.toPublic())
+  } catch (e) {
+    res.status(400).send(e)
+  }
+}
+
+exports.download = async (req, res) => {
+  const uuid = req.params.uuid
+
+  try {
+    const norm = await Norm.findOne({ uuid })
+    if (!norm) {
+      return res.status(404).send()
+    }
+
+    const modules = await Module.find({ norm: norm._id }).populate('items').sort('order')
+
+    const schema = {
+      name: norm.name,
+      version: norm.version,
+      description: norm.description,
+      modules
+    }
+
+    // res.render('index', schema)
+
+    const compiler = pug.compileFile('server/views/index.pug')
+    const html = compiler(schema)
+    const options = {
+      format: 'Letter',
+      border: {
+        top: '0.3in',
+        bottom: '0.3in'
+      },
+      footer: {
+        height: '5mm',
+        contents: {
+          default: '<div style="color: #444; font-size: 10px; text-align: right;">{{page}}/{{pages}}</div>'
+        }
+      }
+    }
+
+    pdf.create(html, options).toBuffer((err, response) => {
+      if (err) return res.status(400).send(err)
+      res.attachment(`${schema.name} v${schema.version}.pdf`)
+      res.send(response)
+    })
   } catch (e) {
     res.status(400).send(e)
   }
